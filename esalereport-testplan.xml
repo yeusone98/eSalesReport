@@ -1,0 +1,8 @@
+<suite name="Tasken - module eSaleReport">
+    <test name ="eSaleReport - Chrome">
+        <parameter name="browser" value = "chrome"/>
+        <classes>
+            <class name ="Tasken.ESaleReport"/>
+        </classes>
+    </test>
+</suite>

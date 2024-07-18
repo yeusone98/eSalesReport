@@ -1,0 +1,16 @@
+<suite name = "Demo">
+    <test name="Sample">
+        <classes>
+            <class name = "Sample.ClassTest1">
+                <methods>
+                    <include name = "tc01"/>
+                </methods>
+            </class>
+            <class name = "Sample.ClassTest2">
+                <methods>
+                    <exclude name = "tc01"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
