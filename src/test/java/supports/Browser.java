@@ -18,6 +18,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -39,7 +41,7 @@ public class Browser {
 
     private static WebDriver driver;
     private static ScreenRecorder screenRecorder;
-    public static int MAX_TIME_OUT_SECONDS = 30;
+    public static int MAX_TIME_OUT_SECONDS = 40;
     public static WebDriverWait wait;
     public static Actions actions;
 
@@ -83,14 +85,30 @@ public class Browser {
         driver.findElement(locator).sendKeys(KeytoSend);
     }
 
+
+    public static void enter(By locator) {
+        driver.findElement(locator).sendKeys(Keys.RETURN);
+    }
+
+    public static void clearInput(By locator){
+        driver.findElement(locator).clear();
+    }
+
     public static String getText(By locator) {
         return driver.findElement(locator).getText();
     }
 
-
     public static WebElement getLocator(By locator){
         return driver.findElement(locator);
     }
+
+
+    public static void deleteText(By locator){
+        actions.keyDown(Keys.CONTROL).sendKeys("a").keyUp(Keys.CONTROL) // Chọn toàn bộ văn bản
+                .sendKeys(Keys.DELETE) // Xóa văn bản
+                .perform();
+    }
+
 
 
     public static void check(By locator) {
@@ -181,9 +199,6 @@ public class Browser {
         select.selectByVisibleText(name);
     }
 
-    public static void clearInput(By locator){
-        driver.findElement(locator).clear();
-    }
 
     public static void scroll(By locator){
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", driver.findElement(locator));
@@ -192,4 +207,28 @@ public class Browser {
     public static String getColor(By locator){
         return driver.findElement(locator).getCssValue("background-color");
     }
+
+
+    public static void uploadFileWithRobot(String filePath) throws AWTException {
+
+        // Sử dụng Robot để tải tệp lên
+        StringSelection stringSelection = new StringSelection(filePath);
+        Toolkit.getDefaultToolkit().getSystemClipboard().setContents(stringSelection, null);
+
+        Robot robot = new Robot();
+
+        robot.delay(250);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+        robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_V);
+        robot.keyRelease(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_ENTER);
+        robot.delay(50);
+        robot.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+
+
 }

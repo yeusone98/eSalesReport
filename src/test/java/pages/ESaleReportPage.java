@@ -1,18 +1,54 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import java.awt.*;
 
 import static supports.Browser.*;
 
 public class ESaleReportPage {
 
+    By apllicantCreateElement = By.id("paymentForm_applicantName");
+    By deptElement = By.id("paymentForm_departmentId");
+    By sectionElement = By.id("paymentForm_sectionId");
+    By depotElement = By.id("paymentForm_wareHouse");
+    By unitElement = By.id("paymentForm_unitId");
+    By reqDateElement = By.id("paymentForm_requestDate");
+    By reportTypeElement = By.id("paymentForm_moduleCategoryId");
+    By reportDateElement = By.id("paymentForm_dateOfReport");
+    By reportPrintDateElement = By.id("paymentForm_datePrintReport");
 
+    By noteElement = By.id("paymentForm_note");
+
+    By pathOfReportForSignatureElement = By.xpath("//div[9]/div[1]//button[@class='ant-btn css-kghr11 ant-btn-default']");
+    By reportForSignatureTextElement = By.cssSelector(".ant-upload-list-item-name");
+    By referenceDocsElement = By.xpath("//div[@class='container-fluid']/div[@class='ant-row css-kghr11']/div[2]//input[1]");
+    By employee_2_Element = By.xpath("//div[@class='container-fluid']/div[@class='ant-form-item css-kghr11']//div[2]//input[@class='ant-select-selection-search-input']");
+    By salesSupportElement = By.xpath("//div[10]//div[3]//input[@class='ant-select-selection-search-input']");
+    By managerElement = By.xpath("//div[10]//div[4]//input[@class='ant-select-selection-search-input']");
+
+    By notiCreateSuccessTextElement = By.cssSelector((".ant-notification-notice-description"));
+    By returnButton = By.xpath("//li[.='Trở về']");
+    By filterButton = By.xpath("//button[.='Lọc']");
+    By applyFilterButton = By.cssSelector(".ant-btn-primary");
+    By reqCodeFilter = By.id("requestCode");
 
 
     public void open(){
         visit("https://tasken.io/");
     }
+
+
+
+    public void clickChangeLanguage(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[contains(.,'US')]")));
+        click(By.xpath("//span[contains(.,'US')]"));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[2]/div/div/div/div/div")));
+        click(By.xpath("//div[2]/div/div/div/div/div"));
+    }
+
 
     public void clickLoginButton(){
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[ng-if='!vm.vars.isAbout']")));
@@ -170,68 +206,105 @@ public class ESaleReportPage {
         return isSelectedForCSS(By.xpath("//li[@class='ant-menu-item ant-menu-item-active ant-menu-item-selected ant-menu-item-only-child']"));
     }
 
-
-    public void fillLocWithAllValidData(){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[.='Lọc']")));
-        click(By.xpath("//span[.='Lọc']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("requestCode")));
-        fill(By.id("requestCode"),"058-eSR-HBCONS-2024");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("departmentId")));
-        click(By.id("departmentId"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Dự án Tasken']")));
-        scroll(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Marketing']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Landmark 81 Project']")));
-        click(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Landmark 81 Project']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sectionId")));
-        click(By.id("sectionId"));
-        fill(By.id("sectionId"),"HoaBinh Cons");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("unitId")));
-        click(By.id("unitId"));
-        fill(By.id("unitId"),"Sub HoaBinh Cons");
-
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("createdBy")));
-        fill(By.id("createdBy"),"Uyen Nguyen Ngoc Bao");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("processingBy")));
-        fill(By.id("processingBy"),"Vuong Luc Tan");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("createdBy")));
-        fill(By.id("status"),"Đang chờ duyệt");
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fromDateOfReport")));
-        clearInput(By.id("fromDateOfReport"));
-        fill(By.id("fromDateOfReport"),"2024-06-13");
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("toDateOfReport")));
-        clearInput(By.id("toDateOfReport"));
-        fill(By.id("toDateOfReport"),"2024-06-13");
-        click(By.xpath("//span[.='Apply']"));
-        wait.until((ExpectedConditions.visibilityOfElementLocated(By.xpath("//a[.='058-eSR-HBCONS-2024']"))));
-        click(By.xpath("//a[.='058-eSR-HBCONS-2024']"));
+    public void fillDept(String department){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(deptElement));
+        fill(deptElement, department);
+        enter(deptElement);
     }
 
-    public void fillLocFunctionWithMaDeNghi(String madenghi){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[.='Lọc']")));
-        click(By.xpath("//span[.='Lọc']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("requestCode")));
-        fill(By.id("requestCode"),madenghi);
-        click(By.xpath("//span[.='Apply']"));
-        click(By.xpath(String.format("//a[.='%s']", madenghi)));
+    public void fillSection(String section){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(sectionElement));
+        fill(sectionElement, section);
+        enter(sectionElement);
     }
 
-    public void fillLocFunctionWithPhongBan(String madenghi, String phongban){
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[.='Lọc']")));
-        click(By.xpath("//span[.='Lọc']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("departmentId")));
-        click(By.id("departmentId"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Dự án Tasken']")));
-        scroll(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Marketing']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Landmark 81 Project']")));
-        click(By.xpath("//div[@class='rc-virtual-list-holder-inner']/div[.='Landmark 81 Project']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("sectionId")));
-        click(By.id("sectionId"));
-        fill(By.id("sectionId"),phongban);
-        click(By.xpath("//span[.='Apply']"));
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//a[.='%s']", madenghi))));
-        click(By.xpath(String.format("//a[.='%s']", madenghi)));
+    public void fillUnit(String unit){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(unitElement));
+        fill(unitElement, unit);
+        enter(unitElement);
     }
+
+    public void fillDateOfReport(String dateOfreport){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(reportDateElement));
+        deleteText(reportDateElement);
+        fill(reportDateElement, dateOfreport);
+        enter(reportDateElement);
+
+    }
+
+    public void fillreportPrintingDate(String reportPrintingDate){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(reportPrintDateElement));
+        deleteText(reportPrintDateElement);
+        fill(reportPrintDateElement, reportPrintingDate);
+        enter(reportPrintDateElement);
+    }
+
+    public void clickReasonForPrintReportOnDiffDate(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@type='checkbox' and @value='Cập nhật lại Bằng THTM&DTBH']")));
+        click(By.xpath("//input[@type='checkbox' and @value='Cập nhật lại Bằng THTM&DTBH']"));
+    }
+
+    public void importReportSubmitted(String pathReportSubmitted) throws AWTException {
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(pathOfReportForSignatureElement));
+        click(pathOfReportForSignatureElement);
+        uploadFileWithRobot(pathReportSubmitted);
+    }
+
+    public void selectEmployee2(String employee2){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(employee_2_Element));
+        fill(employee_2_Element, employee2);
+        enter(employee_2_Element);
+    }
+
+    public void selectSaleSupport(String salesSupport){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(salesSupportElement));
+        fill(salesSupportElement, salesSupport);
+        enter(salesSupportElement);
+    }
+
+    public void selectManager(String manager){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(managerElement));
+        fill(managerElement, manager);
+        enter(managerElement);
+    }
+
+    public void clickSent(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[.='Gửi']")));
+        click(By.xpath("//li[.='Gửi']"));
+    }
+
+    public String verifynotiCreateSuccess(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(notiCreateSuccessTextElement));
+        return getText(notiCreateSuccessTextElement);
+    }
+
+
+    public void clickCreateReq(){
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[.='Tạo mới']")));
+        click(By.xpath("//button[.='Tạo mới']"));
+    }
+
+    public void reqCodeWasCreated() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".ant-notification-notice-close")));
+        click(By.cssSelector(".ant-notification-notice-close"));
+        String reqCode;
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".container-fluid .ant-row > div:nth-of-type(1) > span")));
+        reqCode = getText(By.cssSelector(".container-fluid .ant-row > div:nth-of-type(1) > span"));
+        System.out.println(reqCode);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(returnButton));
+        click(returnButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(filterButton));
+        click(filterButton);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(reqCodeFilter));
+        fill(reqCodeFilter, reqCode);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(applyFilterButton));
+        click(applyFilterButton);
+        String dynamicXPath = String.format("//td[.='%s']", reqCode);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(dynamicXPath)));
+        click(By.xpath(dynamicXPath));
+        System.out.println(reqCode);
+    }
+
 
 }
